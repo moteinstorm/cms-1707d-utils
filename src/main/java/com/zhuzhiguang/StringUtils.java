@@ -5,14 +5,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * ×Ö·û´®¹¤¾ßÀà
+ * å­—ç¬¦ä¸²å·¥å…·ç±»
  * @author zhuzg
  *
  */
 public class StringUtils {
 	
 	/**
-	 * ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñÎª¿Õ
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -21,8 +21,12 @@ public class StringUtils {
 		return (str == null|| str.trim().equals(""));
 	}
 	
+	public static String generateChineseName() {
+		return getRandomCn(3);
+	}
+	
 	/**
-	 * ÅĞ¶ÏÔ´×Ö·û´®ÊÇ·ñÓĞÖµ£¬¿ÕÒıºÅÒ²ËãÃ»Öµ
+	 *  åˆ¤æ–­æ˜¯å¦æœ‰å€¼
 	 * @param str
 	 * @return
 	 */
@@ -32,7 +36,7 @@ public class StringUtils {
 	}
 	
 	/**
-	 * ÑéÖ¤ÊÖ»úºÅÂë
+	 * æ˜¯å¦ç”µè¯
 	 * @return
 	 */
 	public static boolean isMobile(String str) {
@@ -45,7 +49,7 @@ public class StringUtils {
 	}
 	
 	/**
-	 * Ğ£ÑéÓÊ¼ş
+	 * æ˜¯å¦é‚®ä»¶
 	 * @param str
 	 * @return
 	 */
@@ -59,7 +63,8 @@ public class StringUtils {
 	}
 	
 	/**
-	 * »ñÈ¡nÎ»Ëæ»úÓ¢ÎÄ×Ö·û´®
+	 * è·å–  é•¿åº¦ä¸ºnçš„  éšæœºå­—ç¬¦ä¸²
+	 * å¤§å†™å­—æ¯   
 	 */
 	public static String getRandomStr(int n) {
 		
@@ -74,7 +79,24 @@ public class StringUtils {
 	}
 	
 	/**
-	 * 3.3.8»ñÈ¡nÎ»Ëæ»úÓ¢ÎÄºÍÊı×Ö×Ö·û´®
+	 * è·å–éšæœºå­—ç¬¦ä¸²  ä»…ä»…åŒ…å«å­—ç¬¦ä¸²
+	 * @param n
+	 * @return
+	 */
+public static String getRandomNumber(int n) {
+		
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		
+		for (int i = 0; i < n; i++) {
+			char c = (char)('0' +  random.nextInt(10));
+			sb.append(c);
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * éšæœºå­—ç¬¦ä¸²  ä»…ä»…åŒ…å«å¤§å†™å­—æ¯ å’Œ æ•°å­—  ç”Ÿæˆçš„é•¿åº¦ä¸º  n
 	 */
 	public static String getRandomStr2(int n) {
 		
@@ -95,7 +117,7 @@ public class StringUtils {
 	}
 	
 	/**
-	 * »ñÈ¡Ëæ»ú³¤¶ÈÎªn µÄ ÖĞÎÄ×Ö·û´®
+	 * ç”Ÿæˆé•¿åº¦ä¸ºn çš„ä¸­æ–‡å­—ç¬¦ä¸²
 	 * @return
 	 */
 	public static String getRandomCn(int n ) {
@@ -109,7 +131,7 @@ public class StringUtils {
 	
 	
 	/**
-	 * »ñÈ¡Ëæ»úÖĞÎÄ
+	 * ç”Ÿæˆä¸€ä¸ªéšæœºçš„ä¸­æ–‡å­—ç¬¦ä¸² 
 	 * @return
 	 */
 	private static char getRandomCn() {
@@ -130,7 +152,7 @@ public class StringUtils {
             str = new String(b, "GBK");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("´íÎó");
+            System.out.println("å‡ºç°å¼‚å¸¸");
         }
 
         return str.charAt(0);

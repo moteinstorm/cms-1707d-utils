@@ -6,14 +6,23 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * 
+ * æ—¥æœŸç±»å‹çš„å·¥å…·ç±»
  * @author zhuzg
  *
  */
 public class DateUtils {
+	
+	public static int YEAR  = Calendar.YEAR;
+	public static int MONTH  = Calendar.MONTH;
+	public static int DATE  = Calendar.DATE;
+	public static int HOUR  = Calendar.HOUR;
+	public static int MINUTE  = Calendar.MINUTE;
+	public static int SECOND  = Calendar.SECOND;
+	public static int MILLISECOND  = Calendar.MILLISECOND;
+	
 
 	/**
-	 * Ò»ÌìÓĞ¶àÉÙºÁÃë
+	 * ä¸€å¤©çš„æ¯«ç§’æ•°
 	 */
 	static final long millionSecondsPerDay = 1000 * 60 * 60 * 24;
 
@@ -26,37 +35,54 @@ public class DateUtils {
 	public static int compare(Date date1, Date date2) {
 
 		if (date1 == null || date2 == null)
-			throw new RuntimeException("²ÎÊı²»ÄÜÎª¿Õ");
+			throw new RuntimeException("æ—¥æœŸä¸èƒ½ä¸ºç©º");
 
 		return date1.compareTo(date2);
 	}
-
+	
 	/**
-	 * ¼ÆËãÄêÁä
-	 * 
+	 * åœ¨ä¸€ä¸ªåŸæœ‰çš„æ—¥æœŸåŸºç¡€ä¸Šå¢å‡  å¤©æ•° æœˆæ•° ç§’æ•°ç­‰
+	 * @param field
+	 * @param num
+	 * @param srcDate
 	 * @return
 	 */
-	public static int calculateAge(Date birthday) {
+	public static synchronized Date addField(int field,int num,Date srcDate) {
+		
+		
+		Calendar canlendar = Calendar.getInstance();
+		canlendar.setTime(srcDate);
+		canlendar.add(field, num);
+		return canlendar.getTime();
+		
+	}
+
+	/**
+	 * è®¡ç®—å¹´é¾„
+	 * @param birthday
+	 * @return
+	 */
+	public static synchronized int calculateAge(Date birthday) {
 
 		if (birthday.compareTo(new Date()) > 0) {
-			throw new RuntimeException("¸ø¶¨µÄÉúÈÕ²»ÄÜ´óÓÚµ±Ç°ÈÕÆÚ " + birthday);
+			throw new RuntimeException("ç”Ÿæ—¥ä¸èƒ½å¤§äºå½“å‰æ—¥æœŸ" + birthday);
 		}
 
-		// ¼ÆËãÉúÈÕµÄ Äê ÔÂ ÈÕ
+		//è·å–æ—¥å†ç±»
 		Calendar canlendar = Calendar.getInstance();
 		canlendar.setTime(birthday);
 
-		int bdYear = canlendar.get(Calendar.YEAR);// ³öÉúµÄÄê·İ
-		int bdMonth = canlendar.get(Calendar.MONTH);// ³öÉúµÄÔÂ·İ
-		int bdDay = canlendar.get(Calendar.DAY_OF_MONTH);// ³öÉúµÄÈÕ
+		int bdYear = canlendar.get(Calendar.YEAR);// è·å–ç”Ÿæ—¥çš„å¹´
+		int bdMonth = canlendar.get(Calendar.MONTH);//è·å–ç”Ÿæ—¥çš„æœˆ
+		int bdDay = canlendar.get(Calendar.DAY_OF_MONTH);// è·å–ç”Ÿæ—¥çš„å¤©
 
 		System.out.println(" bdYear: " + bdYear + " bdMonth:" + bdMonth + " bdDay: " + bdDay);
 
-		// ¼ÆËãµ±Ç°ÈÕÆÚ Äê ÔÂ ÈÕ
+		// è®¾ç½®å½“å‰çš„æ—¥
 		canlendar.setTime(new Date());
-		int currentYear = canlendar.get(Calendar.YEAR);// µ±Ç°µÄÄê·İ
-		int currentMonth = canlendar.get(Calendar.MONTH);// µ±Ç°µÄÔÂ·İ
-		int currentDay = canlendar.get(Calendar.DAY_OF_MONTH);// µ±Ç°µÄÈÕ
+		int currentYear = canlendar.get(Calendar.YEAR);// è·å–å½“å‰å¹´
+		int currentMonth = canlendar.get(Calendar.MONTH);//è·å–å½“å‰æœˆ
+		int currentDay = canlendar.get(Calendar.DAY_OF_MONTH);// è·å–å½“å‰æ—¥
 
 		System.out.println(
 				" currentYear: " + currentYear + " currentMonth:" + currentMonth + " currentDay: " + currentDay);
@@ -72,22 +98,22 @@ public class DateUtils {
 	}
 
 	/**
-	 * ¼ÆËãµ½½«À´µÄÒ»¸öÈÕÆÚ »¹Ê£Óà¶àÉÙÌì
+	 *  è®¡ç®—åˆ°å°†æ¥æŸä¸€ä¸ªæ—¥æœŸå‰©ä½™çš„å¤©æ•°
 	 * 
-	 * @param futureDate
-	 *            Î´À´µÄÄ³Ò»Ìì
+	 * @param futureDate  æœªæ¥çš„æ—¥æœŸ
+	 *          
 	 * @return
 	 * @throws CmsException
 	 */
 	public static int remainDays(Date futureDate) throws CmsException {
 		/**
-		 * ¸ø¶¨µÄ²ÎÊıÊÇ·ñºÏ·¨£¬Ğ¡ÓÚµ±Ç°ÈÕÆÚÔòÈÏÎª²»ºÏ·¨£¬Å×³öÒì³£
+		 * æ—¥æœŸå¿…é¡»å¤§äºå½“å‰çš„æ—¥æœŸ
 		 */
 		if (futureDate.compareTo(new Date()) < 0) {
-			throw new CmsException("Î´À´ÈÕÆÚ²»ÄÜĞ¡ÓÚµ±Ç°ÈÕÆÚ £º " + futureDate);
+			throw new CmsException("æ—¥æœŸä¸èƒ½å°äºå½“å‰çš„æ—¥æœŸ" + futureDate);
 		}
 
-		// ¼ÆËãÓĞ¶àÉÙÌì
+		// æ—¶é—´æˆ³ç›¸å‡ é™¤ä»¥ ä¸€å¤©çš„æ¯«ç§’æ•°é‡
 		int days = (int) ((futureDate.getTime() - new Date().getTime()) / millionSecondsPerDay);
 
 		return days;
@@ -95,7 +121,7 @@ public class DateUtils {
 	}
 
 	/**
-	 * ÅĞ¶ÏÊÇ·ñÎª½ñÌì
+	 * åˆ¤æ–­æ˜¯å¦ä¸ºä»Šå¤©
 	 * 
 	 * @param date
 	 * @return
@@ -103,10 +129,10 @@ public class DateUtils {
 	public static boolean isToday(Date date) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		// »ñÈ¡ÈÕÆÚµÄ×Ö·û´®
+		// æ ¼å¼åŒ–å‚æ•°æ—¥æœŸ
 		String dateStr = sdf.format(date);
 
-		// »ñÈ¡ÈÕÆÚµÄ×Ö·û´®
+		// æ ¼å¼åŒ–å½“å‰æ—¥æœŸ
 		String todayStr = sdf.format(new Date());
 
 		return (dateStr.equals(todayStr));
@@ -114,11 +140,11 @@ public class DateUtils {
 	}
 
 	/**
-	 * ÅĞ¶ÏÊÇ·ñÔÚ±¾ÖÜ
+	 * åˆ¤æ–­æ˜¯å¦ä¸ºæœ¬å‘¨
 	 * @param date
 	 * @return
 	 */
-	public static boolean isThisWeek(Date date) {
+	public static  synchronized boolean isThisWeek(Date date) {
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 
@@ -128,9 +154,9 @@ public class DateUtils {
 
 		int day = firstDayOfWeek.get(Calendar.DAY_OF_WEEK);
 
-		firstDayOfWeek.add(Calendar.DATE, -day + 1 + 1);// ºóÃæµÄ+1ÊÇÒòÎª´ÓÖÜÈÕ¿ªÊ¼
+		firstDayOfWeek.add(Calendar.DATE, -day + 1 + 1);// ï¿½ï¿½ï¿½ï¿½ï¿½+1ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Õ¿ï¿½Ê¼
 
-		// ±¾ÖÜÒ»µÄÈÕÆÚ
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		System.out.println(format.format(firstDayOfWeek.getTime()));
 
@@ -142,7 +168,7 @@ public class DateUtils {
 
 		lastDayOfWeek.add(Calendar.DATE, 7 - day + 1);
 
-		// ±¾ÖÜĞÇÆÚÌìµÄÈÕÆÚ
+		
 
 		System.out.println(format.format(lastDayOfWeek.getTime()));
 
@@ -156,21 +182,32 @@ public class DateUtils {
 	 * @param date
 	 * @return
 	 */
-	public boolean isThisMonth(Date date) {
-		// ×Ô¼ºÈ¥Íê³É°É¡£¡£¡£
-		return false;
+	public static synchronized boolean  isThisMonth(Date date) {
+		Calendar canlendar = Calendar.getInstance();
+		canlendar.setTime(date);
+		// åˆ¤æ–­æ˜¯å¦ä¸ºæœ¬æœˆ
+		int pYear = canlendar.get(Calendar.YEAR);// è·å–å‚æ•°çš„å¹´
+		int pMonth = canlendar.get(Calendar.MONTH);//è·å–å‚æ•°çš„æœˆ
+
+		canlendar.setTime(new Date());
+		// åˆ¤æ–­æ˜¯å¦ä¸ºæœ¬æœˆ
+		int curYear = canlendar.get(Calendar.YEAR);// è·å–å‚æ•°çš„å¹´
+		int curMonth = canlendar.get(Calendar.MONTH);//è·å–å‚æ•°çš„æœˆ
+		
+		
+		return (pYear==curYear && pMonth == curMonth);
 	}
 	
 	
 	
 	/**
-	 *  ¸ø¶¨Ê±¼ä¶ÔÏó£¬³õÊ¼»¯µ½¸ÃÔÂ³õµÄ1ÈÕ0Ê±0·Ö0Ãë0ºÁÃë
-	 *  »ñÈ¡ÔÂ³õµÄÊ±¼ä  BOM£¨begin of the month£© 
+	 *  è®¡ç®—æœˆåˆçš„æ—¶é—´
+	 *    BOM  begin of the month 
 	 * @param date
 	 * @return
 	 * 
 	 */
-	public static Date getBOM(Date date) {
+	public static synchronized Date getBOM(Date date) {
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -185,12 +222,12 @@ public class DateUtils {
 	}
 	
 	/**
-	 *  ÏÈÇó³öÏÂÒ»¸öÔÂµÄÔÂ³õ  È»ºó¼õÒ»Ãë¡£¾ÍÊÇ±¾ÔÂÔÂÄ©µÄÊ±¼ä
+	 *  è®¡ç®—æœ¬æœˆæœˆæœ«çš„æ—¶é—´
 	 *   
 	 * @param date
 	 * @return
 	 */
-	public static Date getEOM(Date date) {
+	public static synchronized Date getEOM(Date date) {
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -204,9 +241,6 @@ public class DateUtils {
 		return calendar.getTime();
 		
 	}
-	
-	
-	
 	
 
 }

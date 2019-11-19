@@ -13,7 +13,7 @@ public class TestStringUtils {
 	public void testIsBlank() {
 		
 		
-		// ¶ÏÑÔ  Õæ
+		// åˆ¤æ–­æ˜¯å¦ä¸ºç©º
 		assertTrue( StringUtils.isBlank("   "));
 		
 	}
@@ -21,7 +21,7 @@ public class TestStringUtils {
 	
 	@Test
 	public void testIsBlank2() {
-		//¶ÏÑÔ ¼Ù
+		//åˆ¤æ–­æ˜¯å¦ä¸ºç©º
 		assertFalse( StringUtils.isBlank("aaaa"));
 	}
 	
@@ -34,14 +34,14 @@ public class TestStringUtils {
 	@Test
 	public void testStrRland() {
 		String s = StringUtils.getRandomStr2(25);
-		System.out.println(" s is " + s + "  and ³¤¶ÈÊÇ  " + s.length());
+		System.out.println(" s is " + s + "  and é•¿åº¦æ˜¯  " + s.length());
 	}
 	
 	
 	@Test
 	public void testCnStrn() {
 		String s = StringUtils.getRandomCn(25);
-		System.out.println(" s " + s + "  changdu : " + s.length());
+		System.out.println(" s " + s + "  é•¿åº¦æ˜¯ : " + s.length());
 		
 	}
 	
