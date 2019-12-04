@@ -3,9 +3,24 @@
   <groupId>com.zhuzhiguang.utils</groupId>
   <artifactId>zhukzhiguang-utils</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+  <properties>
+  <commons-lang3.version>3.3.2</commons-lang3.version>
+  </properties>
   
   <dependencies>
+  
+  <dependency>
+  <groupId>commons-codec</groupId>
+  <artifactId>commons-codec</artifactId>
+  <version>1.5</version>
+  </dependency>
+  
+  <!-- 依赖的公共包 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
   
    <!-- 单元测试 -->
   	<dependency>
@@ -15,4 +30,42 @@
   	</dependency>
   	
   </dependencies>
+  
+  
+  <build>
+  <plugins>
+  	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<!-- todo 启动主类的名称 -->
+							<mainClass>com.zhuzhiguang.Compare</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+  </plugins>
+  </build>
 </project>
